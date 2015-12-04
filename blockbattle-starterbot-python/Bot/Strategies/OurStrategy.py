@@ -14,7 +14,7 @@ class OurStrategy(AbstractStrategy):
         piecePosition = self._game.piecePosition
         nextPiece = self._game.nextPiece
 
-        #TODO iterate over all possible moves, compute heristic
+        #TODO iterate over all possible moves, compute heuristic
 
         # get the frontier of the field
         # find place to fit
@@ -24,21 +24,56 @@ class OurStrategy(AbstractStrategy):
 
 
 
-    # Heuristics
-    def bunpiness(field):
 
-        pass
+    # return an array of int that represents the highest point
+    # for each column
+    def getHeights(self, field):
+        grid = field.field
+        heights = [0] * len(grid[0])
+        for row in grid:
+            index = 0
+            for col in row:
+                if grid[row][col] == 4 and heights[index] == 0:
+                    heights[index] = row
+                index += 1
+        return heights
 
-    def agg_height(field):
+    # calculate the sum of absolute height difference
+    def diff_height(self, field):
+        heights = self.getHeights(field)
+        abs_diff_sum = 0
+        for i in xrange(0, len(heights) - 1):
+            abs_diff_sum += abs(heights[i] - heights[i+1])
+        return abs_diff_sum
 
-        pass
+    # sum up the heights in each column
+    def agg_height(self, field):
+        heights = self.getHeights(field)
+        agg_sum = 0
+        for h in heights:
+            agg_sum += h
+        return agg_sum
 
-    def complete_lines(field):
-        
-        pass
+    def complete_lines(self, field):
+        grid = field.field
+        count = 0
+        for layer in grid:
+            if layer.__contains__(0):
+                continue
+            else:
+                count += 1
+        return count
 
-    def num_holes(field):
-        pass
+    def num_holes(self, field):
+        grid = field.field
+        count = 0
+        for i in range(1, grid.height-1):
+            for j in range(1, grid.width-1):
+                if grid[i-1][j] == 0 or grid[i-1][j-1] == 0 or grid[i-1][j+1] == 0:
+                    continue
+                else:
+                    count += 1
+        return count
 
     def I_readiness(field):
         # This heuristic is designed for leaving a single blank column for
