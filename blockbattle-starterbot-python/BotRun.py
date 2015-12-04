@@ -4,6 +4,7 @@ from Bot import Planner
 from Bot.Game.Game import Game
 from Bot.Parser import Parser
 
+# Team CCW #
 
 class Bot:
     def __init__(self, strategy):
