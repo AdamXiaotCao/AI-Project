@@ -36,6 +36,7 @@ class OurStrategy(AbstractStrategy):
                 if grid[row][col] == 4 and heights[index] == 0:
                     heights[index] = row
                 index += 1
+        heights = map(lambd x: len(grid) - x, heights)
         return heights
 
     # calculate the sum of absolute height difference
