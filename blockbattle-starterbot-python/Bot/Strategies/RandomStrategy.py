@@ -14,3 +14,15 @@ class RandomStrategy(AbstractStrategy):
         moves.append('drop')
 
         return moves
+
+
+
+# Heuristics
+    def bunpiness(field):
+        pass
+
+    def agg_height(field):
+        pass
+
+
+# Genetic Algorithjm

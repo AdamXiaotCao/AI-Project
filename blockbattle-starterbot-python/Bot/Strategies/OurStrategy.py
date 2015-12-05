@@ -14,9 +14,27 @@ class RandomStrategy(AbstractStrategy):
         pieceBlocks = piece.positions()
         piecePosition = self._game.piecePosition
         nextPiece = self._game.nextPiece
-
+        #TODO iterate over all possible moves, compute heristic
         # get the frontier of the field
         # find place to fit
         # find corresponding moves
         moves = []
         return moves
+
+
+
+# Heuristics
+    def bunpiness(field):
+        pass
+
+    def agg_height(field):
+        pass
+
+    def complete_lines(field):
+        pass
+
+    def T-spin(field):
+        pass
+        
+
+# Genetic Algorithjm
