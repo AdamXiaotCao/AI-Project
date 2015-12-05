@@ -26,12 +26,15 @@ class OurStrategy(AbstractStrategy):
 
 # Heuristics
     def bunpiness(field):
+
         pass
 
     def agg_height(field):
+
         pass
 
     def complete_lines(field):
+        
         pass
 
     def num_holes(field):
