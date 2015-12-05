@@ -40,7 +40,7 @@ class OurStrategy(AbstractStrategy):
         return heights
 
     # calculate the sum of absolute height difference
-    def bunpiness(field):
+    def diff_height(field):
         heights = getHeights(field)
         abs_diff_sum = 0
         for i in xrange(0, len(heights) - 1):
