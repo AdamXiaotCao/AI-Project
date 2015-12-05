@@ -14,7 +14,7 @@ class OurStrategy(AbstractStrategy):
         piecePosition = self._game.piecePosition
         nextPiece = self._game.nextPiece
 
-        #TODO iterate over all possible moves, compute heristic
+        #TODO iterate over all possible moves, compute heuristic
 
         # get the frontier of the field
         # find place to fit
@@ -25,20 +25,30 @@ class OurStrategy(AbstractStrategy):
 
 
 # Heuristics
-    def bunpiness(field):
-
+    def bumpiness(field):
         pass
 
     def agg_height(field):
-
         pass
 
     def complete_lines(field):
-        
-        pass
+        count = 0
+        for layer in field:
+            if layer.__contains__(0):
+                continue
+            else:
+                count += 1
+        return count
 
     def num_holes(field):
-        pass
+        count = 0
+        for i in range(1, len(field)-1):
+            for j in range(1, len(field[i])-1):
+                if field[i-1][j] == 0 or field[i][j-1] == 0 or field[i][j+1] == 0:
+                    continue
+                else:
+                    count += 1
+        return count
 
     def I_readiness(arg):
         pass
