@@ -1,4 +1,3 @@
-
 from AbstractStrategy import AbstractStrategy
 
 
@@ -14,7 +13,9 @@ class RandomStrategy(AbstractStrategy):
         pieceBlocks = piece.positions()
         piecePosition = self._game.piecePosition
         nextPiece = self._game.nextPiece
+
         #TODO iterate over all possible moves, compute heristic
+
         # get the frontier of the field
         # find place to fit
         # find corresponding moves
@@ -33,8 +34,8 @@ class RandomStrategy(AbstractStrategy):
     def complete_lines(field):
         pass
 
-    def T-spin(field):
+    def T_spin(field):
         pass
-        
+
 
 # Genetic Algorithjm
