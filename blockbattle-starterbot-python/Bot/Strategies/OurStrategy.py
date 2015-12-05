@@ -1,7 +1,7 @@
 from AbstractStrategy import AbstractStrategy
 
 
-class RandomStrategy(AbstractStrategy):
+class OurStrategy(AbstractStrategy):
     def __init__(self, game):
         AbstractStrategy.__init__(self, game)
         self._actions = ['left', 'right', 'turnleft', 'turnright', 'down', 'drop']
@@ -36,12 +36,11 @@ class RandomStrategy(AbstractStrategy):
 
     def num_holes(field):
         pass
-        
+
     def I_readiness(arg):
         pass
 
     def T_spin(field):
         pass
-
 
 # Genetic Algorithjm
