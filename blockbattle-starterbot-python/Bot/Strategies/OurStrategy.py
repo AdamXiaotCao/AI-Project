@@ -34,6 +34,9 @@ class RandomStrategy(AbstractStrategy):
     def complete_lines(field):
         pass
 
+    def num_holes(field):
+        pass
+        
     def T_spin(field):
         pass
 
