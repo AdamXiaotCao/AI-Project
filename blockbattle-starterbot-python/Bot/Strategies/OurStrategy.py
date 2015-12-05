@@ -30,7 +30,7 @@ class OurStrategy(AbstractStrategy):
     # for each column
     def getHeights(field):
         grid = field.field
-        heights = [0] * self.width
+        heights = [0] * len(grid[0])
         for row in grid:
             index = 0
             for col in row:
@@ -40,11 +40,7 @@ class OurStrategy(AbstractStrategy):
         return heights
 
     # calculate the sum of absolute height difference
-<<<<<<< HEAD
     def diff_height(field):
-=======
-    def bumpiness(field):
->>>>>>> 71236a817526a27475e31e583d25caf8e9ed975a
         heights = getHeights(field)
         abs_diff_sum = 0
         for i in xrange(0, len(heights) - 1):
@@ -58,7 +54,6 @@ class OurStrategy(AbstractStrategy):
         for h in heights:
             agg_sum += h
         return agg_sum
-
 
     def complete_lines(field):
         count = 0
