@@ -3,3 +3,4 @@ class AbstractStrategy:
         self._game = game
 
     def choose(self):
+        return None
