@@ -51,7 +51,7 @@ class Field:
 
         field = copy.deepcopy(self.field)
         if self.__checkIfPieceFits(piece):
-            for x,y in piece:
+            for x, y in piece:
                 field[y][x] = 4
 
             return field
