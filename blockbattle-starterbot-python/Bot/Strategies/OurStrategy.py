@@ -44,7 +44,7 @@ class OurStrategy(AbstractStrategy):
         count = 0
         for i in range(1, len(field)-1):
             for j in range(1, len(field[i])-1):
-                if field[i-1][j] == 0 or field[i][j-1] == 0 or field[i][j+1] == 0:
+                if field[i-1][j] == 0 or field[i-1][j-1] == 0 or field[i-1][j+1] == 0:
                     continue
                 else:
                     count += 1
