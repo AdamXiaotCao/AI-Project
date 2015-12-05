@@ -25,11 +25,36 @@ class OurStrategy(AbstractStrategy):
 
 
 # Heuristics
-    def bumpiness(field):
-        pass
 
+    # return an array of int that represents the highest point
+    # for each column
+    def getHeights(field):
+        grid = field.field
+        heights = [0] * self.width
+        for row in grid:
+            index = 0
+            for col in row:
+                if grid[row][col] == 4 and heights[index] == 0:
+                    heights[index] = row
+                index += 1
+        return heights
+
+    # calculate the sum of absolute height difference
+    def bumpiness(field):
+        heights = getHeights(field)
+        abs_diff_sum = 0
+        for i in xrange(0, len(heights) - 1):
+            abs_diff_sum += abs(heights[i] - heights[i+1])
+        return abs_diff_sum
+
+    # sum up the heights in each column
     def agg_height(field):
-        pass
+        heights = getHeights(field)
+        agg_sum = 0
+        for h in heights:
+            agg_sum += h
+        return agg_sum
+
 
     def complete_lines(field):
         count = 0
