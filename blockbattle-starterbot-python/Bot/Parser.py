@@ -68,4 +68,3 @@ class Parser:
             player.combo = values[1]
         elif values[0] == 'row_points':
             player.combo = values[1]
-

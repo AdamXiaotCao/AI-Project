@@ -1,15 +1,17 @@
 from AbstractStrategy import AbstractStrategy
 import math, copy, sys
 
+DEV_MODE = False
 class OurStrategy(AbstractStrategy):
 
     def __init__(self, game):
         AbstractStrategy.__init__(self, game)
         self._actions = ['left', 'right', 'turnleft', 'turnright', 'down', 'drop']
-        self.a = 1
-        self.b = 1
-        self.c = 1
-        self.d = 1
+        self.a = -0.510066
+        self.b = 0.760666
+        self.c = -0.35663
+        self.d = 0
+        self.e = -0.184483
 
     def choose(self):
         player = self._game.me
@@ -25,8 +27,8 @@ class OurStrategy(AbstractStrategy):
         best_moves = []
         counter = 0
         #TODO iterate over all possible moves, compute heuristic
-
-        for j in range(1, field.width/2):
+        #right side
+        for j in range(0, field.width/2 - piece.pieceWidth()):
             current_moves = []
             for i in range(1, field.height-1):
                 for turn in range(0,4):
@@ -34,7 +36,8 @@ class OurStrategy(AbstractStrategy):
                     # print "checking is on ground ", counter
                     if isOnGround(piece.positions(), field,i, j):
                         tmp_score = self.getScore(field.projectPieceDown(piece, (i, j)))
-                        print "tmp_score is ", tmp_score
+                        if DEV_MODE:
+                            print "tmp_score is ", tmp_score
                         if tmp_score > max_score:
                             max_score = tmp_score
                             best_moves = current_moves
@@ -48,7 +51,34 @@ class OurStrategy(AbstractStrategy):
                         piecePosition = piece.positions()
                 current_moves += ['down']
             current_moves += ['right']
-        # given the best fit, find corresponding moves
+        # left side
+        for j in range(1, field.width/2-piece.pieceWidth()):
+            if DEV_MODE:
+                print("on the left side")
+            current_moves = []
+            for i in range(1, field.height-1):
+                for turn in range(0,4):
+                    counter += 1
+                    # print "checking is on ground ", counter
+                    if isOnGround(piece.positions(), field,i, -j):
+                        tmp_score = self.getScore(field.projectPieceDown(piece, (i, -j)))
+                        if DEV_MODE:
+                            print "tmp_score is ", tmp_score
+                        if tmp_score > max_score:
+                            max_score = tmp_score
+                            best_moves = current_moves
+                            # best_fit = (i, j)
+                        break
+                    if turn != 0:
+                        turn_result = piece.turnRight()
+                        if not turn_result:
+                            break
+                        current_moves += ["turnright"]
+                        piecePosition = piece.positions()
+                current_moves += ['down']
+            current_moves += ['left']
+        if DEV_MODE:
+            print "count is ", counter
         moves = best_moves
         # print moves
         moves += ['drop']
@@ -59,12 +89,13 @@ class OurStrategy(AbstractStrategy):
         com_l = self.complete_lines(field)
         num_h = self.num_holes(field)
         t_spin_r = self.T_spin_readiness(field)
-        print("----------")
-        print("getScore result")
-        print "agg_h: ", agg_h, "\n com_l: ", com_l, "\nnum_h: ", num_h, "\nt_spin_r: ", t_spin_r
-        print("----------")
+        if DEV_MODE:
+            print("----------")
+            print("getScore result")
+            print "agg_h: ", agg_h, "\n com_l: ", com_l, "\nnum_h: ", num_h, "\nt_spin_r: ", t_spin_r
+            print("----------")
         return self.a * self.agg_height(field) + self.b * self.complete_lines(field) \
-               + self.c * self.num_holes(field) + self.d * self.T_spin_readiness(field)
+               + self.c * self.num_holes(field) + self.d * self.T_spin_readiness(field) + self.e * self.diff_height(field)
 
     # return an array of int that represents the highest point
     # for each column
@@ -89,11 +120,13 @@ class OurStrategy(AbstractStrategy):
 
     # sum up the heights in each column
     def agg_height(self, field):
-        printField(field)
+        if DEV_MODE:
+            printField(field)
         heights = self.getHeights(field)
-        print("---------heights----------")
-        print(heights)
-        print("-----------End------------")
+        if DEV_MODE:
+            print("---------heights----------")
+            print(heights)
+            print("-----------End------------")
         agg_sum = 0
         for h in heights:
             agg_sum += h
@@ -163,7 +196,6 @@ def isOnGround(piecePositions, field, i, j):
     result = (field.fitPiece(piecePositions, (i,j)) is not None) and (field.fitPiece(piecePositions,(i+1,j)) is None)
     # result = checkIfPieceFits(field, piecePositions) and \
         #    (not checkIfPieceFits(field, offsetPiece(piecePositions, (0, 1))))
-    print "is on ground result is ", result
     return result
 
 def printField(field):
