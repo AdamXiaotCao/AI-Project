@@ -163,9 +163,6 @@ class OurStrategy(AbstractStrategy):
                         return 10
         return 0
 
-    def T_spinning(field):
-
-        pass
 
 
 # Genetic Algorithm
