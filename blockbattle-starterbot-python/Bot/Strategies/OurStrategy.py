@@ -25,31 +25,30 @@ class OurStrategy(AbstractStrategy):
         best_moves = []
         counter = 0
         #TODO iterate over all possible moves, compute heuristic
-        current_moves = []
+
         for j in range(1, field.width/2):
+            current_moves = []
             for i in range(1, field.height-1):
                 for turn in xrange(4):
                     counter += 1
-                    print "checking is on ground ", counter
-                    if isOnGround(piece.positions(), field):
+                    # print "checking is on ground ", counter
+                    if isOnGround(piece.positions(), field,j, i):
                         tmp_score = self.getScore(field.projectPieceDown(piece, (j, i)))
+                        print "tmp_score is ", tmp_score
                         if tmp_score > max_score:
                             max_score = tmp_score
                             best_moves = current_moves
                             # best_fit = (i, j)
                         break
-                    current_moves += "turnright"
+                    current_moves += ["turnright"]
                     piece.turnRight()
                     piecePosition = piece.positions()
-                current_moves += 'down'
-            current_moves += 'right'
+                current_moves += ['down']
+            current_moves += ['right']
         # given the best fit, find corresponding moves
         moves = best_moves
-<<<<<<< HEAD
         print moves
-=======
         moves += ['drop']
->>>>>>> 28cf6e3d631cf76f9b2260aa02ccfd25e72cae64
         return moves
 
     def getScore(self, field):
@@ -59,15 +58,17 @@ class OurStrategy(AbstractStrategy):
     # return an array of int that represents the highest point
     # for each column
     def getHeights(self, field):
-        grid = field.field
-        heights = [0] * len(grid[0])
-        for row in grid:
+
+        heights = [0] * len(field[0])
+        for row in field:
+            row_num = 0
             index = 0
             for col in row:
-                if grid[row][col] == 4 and heights[index] == 0:
-                    heights[index] = row
+                if row[col] == 4 and heights[index] == 0:
+                    heights[index] =row_num
                 index += 1
-        heights = map(lambda x: len(grid) - x, heights)
+            row_num += 1
+        heights = map(lambda x: len(field) - x, heights)
         return heights
 
     # calculate the sum of absolute height difference
@@ -87,9 +88,9 @@ class OurStrategy(AbstractStrategy):
         return agg_sum
 
     def complete_lines(self, field):
-        grid = field.field
+
         count = 0
-        for layer in grid:
+        for layer in field:
             if layer.__contains__(0):
                 continue
             else:
@@ -97,11 +98,10 @@ class OurStrategy(AbstractStrategy):
         return count
 
     def num_holes(self, field):
-        grid = field.field
         count = 0
-        for i in range(1, grid.height-1):
-            for j in range(1, grid.width-1):
-                if grid[i-1][j] == 0 or grid[i-1][j-1] == 0 or grid[i-1][j+1] == 0:
+        for i in range(1, len(field)-1):
+            for j in range(1, len(field[0])-1):
+                if field[i-1][j] == 0 or field[i-1][j-1] == 0 or field[i-1][j+1] == 0:
                     continue
                 else:
                     count += 1
@@ -114,15 +114,15 @@ class OurStrategy(AbstractStrategy):
         # are occupied with blocks in the field
 
         # Find the top blocks
-        for x in xrange(1,field.width-1):
-            for y in xrange(1,field.height-1):
-                if field.field[y][x] > 1:
-                    if (field.field[y-1][x-1] > 1 and
-                        field.field[y-1][x+1] > 1 and
-                        field.field[y-2][x-1] == 0 and
-                        field.field[y-2][x+1] == 0 and
-                        (bool(field.field[y-3][x-1]) ^
-                         bool(field.field[y-3][x+1]))):
+        for x in xrange(1,len(field[0])-1):
+            for y in xrange(1,len(field)-1):
+                if field[y][x] > 1:
+                    if (field[y-1][x-1] > 1 and
+                        field[y-1][x+1] > 1 and
+                        field[y-2][x-1] == 0 and
+                        field[y-2][x+1] == 0 and
+                        (bool(field[y-3][x-1]) ^
+                         bool(field[y-3][x+1]))):
                         return 10
         return 0
 
@@ -152,7 +152,11 @@ def checkIfPieceFits(field, piecePositions):
         return True
 
 
-def isOnGround(piecePositions, field):
-    return checkIfPieceFits(field, piecePositions) and \
-           (not checkIfPieceFits(field, offsetPiece(piecePositions, (0, 1))))
+def isOnGround(piecePositions, field, i, j):
+    print "piecePositions is ", piecePositions
+    result = (field.fitPiece(piecePositions) is not None) and (field.fitPiece(piecePositions,(j,i)) is None)
+    # result = checkIfPieceFits(field, piecePositions) and \
+        #    (not checkIfPieceFits(field, offsetPiece(piecePositions, (0, 1))))
+    print "is on ground result is ", result
+    return result
 # Genetic Algorithm
