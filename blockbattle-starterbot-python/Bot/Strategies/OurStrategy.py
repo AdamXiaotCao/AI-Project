@@ -77,17 +77,6 @@ class OurStrategy(AbstractStrategy):
                 if(field[row][col] == 4):
                     heights[col] = num_row - row
                     break
-        #
-        # for row in field:
-        #     row_num = 0
-        #     index = 0
-        #     for col in row:
-        #         if row[col] == 4 and heights[index] == 0:
-        #             heights[index] =row_num
-        #             break
-        #         index += 1
-        #     row_num += 1
-        # heights = map(lambda x: len(field) - x, heights)
         return heights
 
     # calculate the sum of absolute height difference
@@ -101,8 +90,6 @@ class OurStrategy(AbstractStrategy):
     # sum up the heights in each column
     def agg_height(self, field):
         printField(field)
-
-
         heights = self.getHeights(field)
         print("---------heights----------")
         print(heights)
@@ -136,7 +123,6 @@ class OurStrategy(AbstractStrategy):
         # This heuristic is designed for leaving a T-spin block
         # In other words, 3 out of 4 corners of the T-shape bounding box
         # are occupied with blocks in the field
-
         # Find the top blocks
         for x in xrange(1,len(field[0])-1):
             for y in xrange(1,len(field)-1):
@@ -155,7 +141,6 @@ class OurStrategy(AbstractStrategy):
         pass
 
 
-
 # Genetic Algorithm
 
 def offsetPiece(piecePositions, offset):
@@ -165,7 +150,6 @@ def offsetPiece(piecePositions, offset):
             pos[1] += offset[1]
         return piece  # return type: piecePositions
 
-
 def checkIfPieceFits(field, piecePositions):
         for x,y in piecePositions:
             if 0 <= x < field.width and 0 <= y < field.height:
@@ -174,7 +158,6 @@ def checkIfPieceFits(field, piecePositions):
             else:
                 return False
         return True
-
 
 def isOnGround(piecePositions, field, i, j):
     result = (field.fitPiece(piecePositions, (i,j)) is not None) and (field.fitPiece(piecePositions,(i+1,j)) is None)
