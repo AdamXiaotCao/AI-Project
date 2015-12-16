@@ -90,11 +90,6 @@ class OurStrategy(AbstractStrategy):
                     count += 1
         return count
 
-    def I_readiness(field):
-        # This heuristic is designed for leaving a single blank column for
-        # I piece to get combo points
-        
-        pass
 
     def T_spin_readiness(self, field):
         # This heuristic is designed for leaving a T-spin block
@@ -113,9 +108,9 @@ class OurStrategy(AbstractStrategy):
                          bool(field.field[y-3][x+1]))):
                         return 10
         return 0
-    
+
     def T_spinning(field):
-        
+
         pass
 
 
@@ -143,3 +138,4 @@ def checkIfPieceFits(field, piecePositions):
 def isOnGround(piecePositions, field):
     return checkIfPieceFits(field, piecePositions) and \
            (not checkIfPieceFits(field, offsetPiece(piecePositions, (0, 1))))
+# Genetic Algorithm
