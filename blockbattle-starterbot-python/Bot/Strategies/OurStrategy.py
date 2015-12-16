@@ -5,6 +5,10 @@ class OurStrategy(AbstractStrategy):
     def __init__(self, game):
         AbstractStrategy.__init__(self, game)
         self._actions = ['left', 'right', 'turnleft', 'turnright', 'down', 'drop']
+        self.a = 1
+        self.b = 1
+        self.c = 1
+        self.d = 1
 
     def choose(self):
         player = self._game.me
@@ -22,35 +26,27 @@ class OurStrategy(AbstractStrategy):
         moves = []
         return moves
 
-
-
-# Heuristics
+    def getScore(self, field):
+        return self.a * self.agg_height(field) + self.b * self.complete_lines(field) \
+               + self.c * self.num_holes(field) + self.d * self.T_spin_readiness(field)
 
     # return an array of int that represents the highest point
     # for each column
     def getHeights(self, field):
         grid = field.field
-<<<<<<< HEAD
         heights = [0] * len(grid[0])
-=======
-        heights = [0] * grid.width
->>>>>>> fc665ba115d941103778ae4a551ea89802a2e603
         for row in grid:
             index = 0
             for col in row:
                 if grid[row][col] == 4 and heights[index] == 0:
                     heights[index] = row
                 index += 1
+        heights = map(lambda x: len(grid) - x, heights)
         return heights
 
     # calculate the sum of absolute height difference
-<<<<<<< HEAD
-    def diff_height(field):
-        heights = getHeights(field)
-=======
     def diff_height(self, field):
         heights = self.getHeights(field)
->>>>>>> fc665ba115d941103778ae4a551ea89802a2e603
         abs_diff_sum = 0
         for i in xrange(0, len(heights) - 1):
             abs_diff_sum += abs(heights[i] - heights[i+1])
@@ -64,12 +60,8 @@ class OurStrategy(AbstractStrategy):
             agg_sum += h
         return agg_sum
 
-<<<<<<< HEAD
-    def complete_lines(field):
-=======
     def complete_lines(self, field):
         grid = field.field
->>>>>>> fc665ba115d941103778ae4a551ea89802a2e603
         count = 0
         for layer in grid:
             if layer.__contains__(0):
@@ -89,10 +81,33 @@ class OurStrategy(AbstractStrategy):
                     count += 1
         return count
 
-    def I_readiness(arg):
+    def I_readiness(field):
+        # This heuristic is designed for leaving a single blank column for
+        # I piece to get combo points
+        
         pass
 
-    def T_spin(field):
+    def T_spin_readiness(self, field):
+        # This heuristic is designed for leaving a T-spin block
+        # In other words, 3 out of 4 corners of the T-shape bounding box
+        # are occupied with blocks in the field
+
+        # Find the top blocks
+        for x in xrange(1,field.width-1):
+            for y in xrange(1,field.height-1):
+                if field.field[y][x] > 1:
+                    if (field.field[y-1][x-1] > 1 and
+                        field.field[y-1][x+1] > 1 and
+                        field.field[y-2][x-1] == 0 and
+                        field.field[y-2][x+1] == 0 and
+                        (bool(field.field[y-3][x-1]) ^
+                         bool(field.field[y-3][x+1]))):
+                        return 10
+        return 0
+    
+    def T_spinning(field):
+        
         pass
 
-# Genetic Algorithjm
+
+# Genetic Algorithm
