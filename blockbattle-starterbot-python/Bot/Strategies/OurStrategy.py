@@ -7,11 +7,11 @@ class OurStrategy(AbstractStrategy):
     def __init__(self, game):
         AbstractStrategy.__init__(self, game)
         self._actions = ['left', 'right', 'turnleft', 'turnright', 'down', 'drop']
-        self.a = -0.510066
-        self.b = 0.760666
-        self.c = -0.35663
+        self.a = -1
+        self.b = 0
+        self.c = 0
         self.d = 0
-        self.e = -0.184483
+        self.e = 0
 
     def choose(self):
         player = self._game.me
@@ -26,57 +26,46 @@ class OurStrategy(AbstractStrategy):
         max_score = -sys.maxint - 1
         best_moves = []
         counter = 0
-        #TODO iterate over all possible moves, compute heuristic
-        #right side
-        for j in range(0, field.width/2 - piece.pieceWidth()):
-            current_moves = []
-            for i in range(1, field.height-1):
-                for turn in range(0,4):
-                    counter += 1
-                    # print "checking is on ground ", counter
-                    if isOnGround(piece.positions(), field, i, j):
-                        tmp_score = self.getScore(field.projectPieceDown(piece, (i, j)))
-                        if DEV_MODE:
-                            print "tmp_score is ", tmp_score
-                        if tmp_score > max_score:
-                            max_score = tmp_score
-                            best_moves = current_moves
-                            # best_fit = (i, j)
-                        break
-                    if turn != 0:
-                        turn_result = piece.turnRight()
-                        if not turn_result:
-                            break
-                        current_moves += ["turnright"]
-                        piecePosition = piece.positions()
-                current_moves += ['down']
-            current_moves += ['right']
+
+        # check right side
+        print piecePosition
+        for j in range(piecePosition[0], field.width - piece.pieceWidth()):
+            current_moves = ['right'] * (j - piecePosition[0])
+            for turn in range(0, 4):
+                counter += 1
+                tmp_score = self.getScore(field.projectPieceDown(piece, (j, 0)))
+                if DEV_MODE:
+                    print "tmp_score is ", tmp_score
+                if tmp_score > max_score:
+                    print max_score, tmp_score, current_moves
+                    max_score = tmp_score
+                    best_moves = copy.deepcopy(current_moves)
+                    break
+                turn_result = piece.turnRight()
+                if not turn_result:
+                    piece._rotateIndex = 0
+                    break
+                current_moves += ["turnright"]
+
         # left side
-        for j in range(1, field.width/2-piece.pieceWidth()):
+        for j in reversed(range(0, piecePosition[0])):
             if DEV_MODE:
                 print("on the left side")
-            current_moves = []
-            for i in range(1, field.height-1):
-                for turn in range(0,4):
-                    counter += 1
-                    # print "checking is on ground ", counter
-                    if isOnGround(piece.positions(), field,i, -j):
-                        tmp_score = self.getScore(field.projectPieceDown(piece, (i, -j)))
-                        if DEV_MODE:
-                            print "tmp_score is ", tmp_score
-                        if tmp_score > max_score:
-                            max_score = tmp_score
-                            best_moves = current_moves
-                            # best_fit = (i, j)
-                        break
-                    if turn != 0:
-                        turn_result = piece.turnRight()
-                        if not turn_result:
-                            break
-                        current_moves += ["turnright"]
-                        piecePosition = piece.positions()
-                current_moves += ['down']
-            current_moves += ['left']
+            current_moves = ['left'] * (piecePosition[0] - j)
+            for turn in range(0, 4):
+                counter += 1
+                tmp_score = self.getScore(field.projectPieceDown(piece, (j, 0)))
+                if DEV_MODE:
+                    print "tmp_score is ", tmp_score
+                if tmp_score > max_score:
+                    max_score = tmp_score
+                    best_moves = copy.deepcopy(current_moves)
+                    break
+                turn_result = piece.turnRight()
+                if not turn_result:
+                    piece._rotateIndex = 0
+                    break
+                current_moves += ["turnright"]
         if DEV_MODE:
             print "count is ", counter
         moves = best_moves
@@ -94,18 +83,18 @@ class OurStrategy(AbstractStrategy):
             print("getScore result")
             print "agg_h: ", agg_h, "\n com_l: ", com_l, "\nnum_h: ", num_h, "\nt_spin_r: ", t_spin_r
             print("----------")
-        return self.a * self.agg_height(field) + self.b * self.complete_lines(field) \
-               + self.c * self.num_holes(field) + self.d * self.T_spin_readiness(field) + self.e * self.diff_height(field)
+        return self.a * self.max_height(field) + self.b * self.complete_lines(field) \
+               + self.c * self.num_holes(field) + self.d * self.T_spin_readiness(field) + self.e * self.agg_height(field)
 
     # return an array of int that represents the highest point
     # for each column
     def getHeights(self, field):
         heights = [0] * len(field[0])
-        num_col = len(field[0])
-        num_row = len(field)
-        for col in range(0,num_col):
+        num_col = len(field[0])  # width
+        num_row = len(field)  # height
+        for col in range(0, num_col):
             for row in range(0, num_row):
-                if(field[row][col] == 4):
+                if field[row][col] == 4:
                     heights[col] = num_row - row
                     break
         return heights
@@ -131,6 +120,11 @@ class OurStrategy(AbstractStrategy):
         for h in heights:
             agg_sum += h
         return agg_sum
+
+    def max_height(self, field):
+        heights = self.getHeights(field)
+        print "max height!,", max(heights), heights
+        return max(heights)
 
     def complete_lines(self, field):
         count = 0
