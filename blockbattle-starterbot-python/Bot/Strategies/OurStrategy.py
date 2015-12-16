@@ -36,10 +36,12 @@ class OurStrategy(AbstractStrategy):
                         break
                     current_moves += "turnright"
                     piece.turnRight()
+                    piecePosition = piece.positions()
                 current_moves += 'down'
             current_moves += 'right'
         # given the best fit, find corresponding moves
         moves = best_moves
+        moves += ['drop']
         return moves
 
     def getScore(self, field):
