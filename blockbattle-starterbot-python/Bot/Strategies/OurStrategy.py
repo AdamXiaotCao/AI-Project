@@ -1,7 +1,8 @@
 from AbstractStrategy import AbstractStrategy
-import math, copy
+import math, copy, sys
 
 class OurStrategy(AbstractStrategy):
+
     def __init__(self, game):
         AbstractStrategy.__init__(self, game)
         self._actions = ['left', 'right', 'turnleft', 'turnright', 'down', 'drop']
@@ -20,14 +21,17 @@ class OurStrategy(AbstractStrategy):
         grid = field.field
 
         # best_fit = None
-        max_score = - math.inf
+        max_score = -sys.maxint - 1
         best_moves = []
+        counter = 0
         #TODO iterate over all possible moves, compute heuristic
-        for j in range(1, grid.width-1):
+        for j in range(1, field.width-1):
             current_moves = []
-            for i in range(1, grid.height-1):
+            for i in range(1, field.height-1):
                 for turn in xrange(4):
-                    if isOnGround(piecePosition, field):
+                    counter += 1
+                    print "checking is on ground ", counter
+                    if isOnGround(piece.positions(), field):
                         tmp_score = self.getScore(field.projectPieceDown(piece, (i, j)))
                         if tmp_score > max_score:
                             max_score = tmp_score
@@ -40,6 +44,7 @@ class OurStrategy(AbstractStrategy):
             current_moves += 'right'
         # given the best fit, find corresponding moves
         moves = best_moves
+        print moves
         return moves
 
     def getScore(self, field):
@@ -143,6 +148,8 @@ def checkIfPieceFits(field, piecePositions):
 
 
 def isOnGround(piecePositions, field):
+
+
     return checkIfPieceFits(field, piecePositions) and \
            (not checkIfPieceFits(field, offsetPiece(piecePositions, (0, 1))))
 # Genetic Algorithm
