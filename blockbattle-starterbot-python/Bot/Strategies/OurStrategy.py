@@ -19,20 +19,27 @@ class OurStrategy(AbstractStrategy):
         nextPiece = self._game.nextPiece
         grid = field.field
 
-        best_fit = None
+        # best_fit = None
         max_score = - math.inf
+        best_moves = []
         #TODO iterate over all possible moves, compute heuristic
-        for i in range(1, grid.height-1):
-            for j in range(1, grid.width-1):
-                if isOnGround(piecePosition, field):
-                    tmp_score = self.getScore(field.projectPieceDown(piece, (i, j)))
-                    if tmp_score > max_score:
-                        max_score = tmp_score
-                        best_fit = (i, j)
-
+        for j in range(1, grid.width-1):
+            current_moves = []
+            for i in range(1, grid.height-1):
+                for turn in xrange(4):
+                    if isOnGround(piecePosition, field):
+                        tmp_score = self.getScore(field.projectPieceDown(piece, (i, j)))
+                        if tmp_score > max_score:
+                            max_score = tmp_score
+                            best_moves = current_moves
+                            # best_fit = (i, j)
+                        break
+                    current_moves += "turnright"
+                    piece.turnRight()
+                current_moves += 'down'
+            current_moves += 'right'
         # given the best fit, find corresponding moves
-
-        moves = []
+        moves = best_moves
         return moves
 
     def getScore(self, field):
