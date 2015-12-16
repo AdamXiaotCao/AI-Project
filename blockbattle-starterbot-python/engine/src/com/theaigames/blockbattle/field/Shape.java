@@ -449,11 +449,11 @@ public class Shape {
 		return this.location;
 	}
 	
-//	public String toString() {
-//		StringBuffer output = new StringBuffer();
-//		for(int i=0; i < blocks.length; i++) {
-//			output.append(blocks[i].getLocation().x + "," + blocks[i].getLocation().y + " ");
-//		}
-//		return output.toString();
-//	}
+	public String toString() {
+		StringBuffer output = new StringBuffer();
+		for(int i=0; i < blocks.length; i++) {
+			output.append(blocks[i].getLocation().x + "," + blocks[i].getLocation().y + " ");
+		}
+		return output.toString();
+	}
 }

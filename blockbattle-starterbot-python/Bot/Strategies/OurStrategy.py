@@ -32,7 +32,7 @@ class OurStrategy(AbstractStrategy):
                 for turn in range(0,4):
                     counter += 1
                     # print "checking is on ground ", counter
-                    if isOnGround(piece.positions(), field,i, j):
+                    if isOnGround(piece.positions(), field, i, j):
                         tmp_score = self.getScore(field.projectPieceDown(piece, (i, j)))
                         print "tmp_score is ", tmp_score
                         if tmp_score > max_score:
@@ -59,10 +59,10 @@ class OurStrategy(AbstractStrategy):
         com_l = self.complete_lines(field)
         num_h = self.num_holes(field)
         t_spin_r = self.T_spin_readiness(field)
-        print("----------")
-        print("getScore result")
-        print "agg_h: ", agg_h, "\n com_l: ", com_l, "\nnum_h: ", num_h, "\nt_spin_r: ", t_spin_r
-        print("----------")
+        # print("----------")
+        # print("getScore result")
+        # print "agg_h: ", agg_h, "\n com_l: ", com_l, "\nnum_h: ", num_h, "\nt_spin_r: ", t_spin_r
+        # print("----------")
         return self.a * self.agg_height(field) + self.b * self.complete_lines(field) \
                + self.c * self.num_holes(field) + self.d * self.T_spin_readiness(field)
 
@@ -104,9 +104,9 @@ class OurStrategy(AbstractStrategy):
 
 
         heights = self.getHeights(field)
-        print("---------heights----------")
-        print(heights)
-        print("-----------End------------")
+        # print("---------heights----------")
+        # print(heights)
+        # print("-----------End------------")
         agg_sum = 0
         for h in heights:
             agg_sum += h
@@ -180,18 +180,18 @@ def isOnGround(piecePositions, field, i, j):
     result = (field.fitPiece(piecePositions, (i,j)) is not None) and (field.fitPiece(piecePositions,(i+1,j)) is None)
     # result = checkIfPieceFits(field, piecePositions) and \
         #    (not checkIfPieceFits(field, offsetPiece(piecePositions, (0, 1))))
-    print "is on ground result is ", result
+    # print "is on ground result is ", result
     return result
 
 def printField(field):
-    print("-------Field--------")
+    # print("-------Field--------")
     for row in range(0,len(field)):
         output = ""
         for col in range(0, len(field[0])):
             output += str(field[row][col])
         output+="\n"
-        print(output)
-    print("---------End--------")
+        # print(output)
+    # print("---------End--------")
 # settings timebank 10000
 # settings time_per_move 500
 # settings player_names player1,player2
