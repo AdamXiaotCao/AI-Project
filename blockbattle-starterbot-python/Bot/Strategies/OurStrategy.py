@@ -1,5 +1,5 @@
 from AbstractStrategy import AbstractStrategy
-import math
+import math, copy
 
 class OurStrategy(AbstractStrategy):
     def __init__(self, game):
@@ -24,9 +24,9 @@ class OurStrategy(AbstractStrategy):
         #TODO iterate over all possible moves, compute heuristic
         for i in range(1, grid.height-1):
             for j in range(1, grid.width-1):
-                if (piece is on ground):
-                    tmp_score = field.projectPieceDown(piece, (i, j))
-                    if (tmp_score > max_score):
+                if isOnGround(piecePosition, field):
+                    tmp_score = self.getScore(field.projectPieceDown(piece, (i, j)))
+                    if tmp_score > max_score:
                         max_score = tmp_score
                         best_fit = (i, j)
 
@@ -119,4 +119,27 @@ class OurStrategy(AbstractStrategy):
         pass
 
 
+
 # Genetic Algorithm
+
+def offsetPiece(piecePositions, offset):
+        piece = copy.deepcopy(piecePositions)
+        for pos in piece:
+            pos[0] += offset[0]
+            pos[1] += offset[1]
+        return piece  # return type: piecePositions
+
+
+def checkIfPieceFits(field, piecePositions):
+        for x,y in piecePositions:
+            if 0 <= x < field.width and 0 <= y < field.height:
+                if field.field[y][x] > 1:
+                    return False
+            else:
+                return False
+        return True
+
+
+def isOnGround(piecePositions, field):
+    return checkIfPieceFits(field, piecePositions) and \
+           (not checkIfPieceFits(field, offsetPiece(piecePositions, (0, 1))))
