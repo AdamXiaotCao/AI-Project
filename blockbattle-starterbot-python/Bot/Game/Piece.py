@@ -16,6 +16,7 @@ class Piece:
     def __init__(self):
         self._rotateIndex = 0
         self._rotations = []
+        self._widthList = []
 
     def turnLeft(self, times=1):
         if self._rotateIndex > times-1:
@@ -35,6 +36,9 @@ class Piece:
     def positions(self):
         return self._rotations[self._rotateIndex]
 
+    def pieceWidth(self):
+        return self._widthList[self._rotateIndex]
+
     def appendRotation(self, rotation):
         self._rotations.append(rotation)
 
@@ -46,11 +50,17 @@ class LPiece(Piece):
         self._rotations.append([[1, 0], [1, 1], [1, 2], [2, 2]])
         self._rotations.append([[0, 1], [1, 1], [2, 1], [0, 2]])
         self._rotations.append([[0, 0], [1, 0], [1, 1], [1, 2]])
+        self._widthList.append(2)
+        self._widthList.append(3)
+        self._widthList.append(2)
+        self._widthList.append(3)
+
 
 class OPiece(Piece):
     def __init__(self):
         Piece.__init__(self)
         self._rotations.append([[0, 0], [1, 0], [0, 1], [1, 1]])
+        self._widthList.append(2)
 
 class IPiece(Piece):
     def __init__(self):
@@ -58,6 +68,9 @@ class IPiece(Piece):
         # rotations ordered by their rotation to the right
         self._rotations.append([[0, 1], [1, 1], [2, 1], [3, 1]])
         self._rotations.append([[2, 0], [2, 1], [2, 2], [2, 3]])
+        self._widthList.append(1)
+        self._widthList.append(4)
+
         # self._rotations.append([[0, 2], [1, 2], [2, 2], [3, 2]])
         # self._rotations.append([[1, 0], [1, 1], [1, 2], [1, 3]])
 
@@ -69,6 +82,11 @@ class JPiece(Piece):
         self._rotations.append([[1, 0], [2, 0], [1, 1], [1, 2]])
         self._rotations.append([[0, 1], [1, 1], [2, 1], [2, 2]])
         self._rotations.append([[1, 0], [1, 1], [0, 2], [1, 2]])
+        self._widthList.append(2)
+        self._widthList.append(3)
+        self._widthList.append(2)
+        self._widthList.append(3)
+
 
 class SPiece(Piece):
     def __init__(self):
@@ -76,6 +94,9 @@ class SPiece(Piece):
         # rotations ordered by their rotation to the right
         self._rotations.append([[1, 0], [2, 0], [0, 1], [1, 1]])
         self._rotations.append([[1, 0], [1, 1], [2, 1], [2, 2]])
+        self._widthList.append(2)
+        self._widthList.append(3)
+
         # self._rotations.append([[1, 1], [2, 1], [0, 2], [1, 2]])
         # self._rotations.append([[0, 0], [0, 1], [1, 1], [1, 2]])
 
@@ -87,11 +108,19 @@ class TPiece(Piece):
         self._rotations.append([[1, 0], [1, 1], [2, 1], [1, 2]])
         self._rotations.append([[0, 1], [1, 1], [2, 1], [1, 2]])
         self._rotations.append([[1, 0], [0, 1], [1, 1], [1, 2]])
+        self._widthList.append(2)
+        self._widthList.append(3)
+        self._widthList.append(2)
+        self._widthList.append(3)
+
 
 class ZPiece(Piece):
     def __init__(self):
         Piece.__init__(self)
         self._rotations.append([[0, 0], [1, 0], [1, 1], [2, 1]])
         self._rotations.append([[2, 0], [1, 1], [2, 1], [1, 2]])
+        self._widthList.append(2)
+        self._widthList.append(3)
+
         # self._rotations.append([[0, 1], [1, 1], [1, 2], [2, 2]])
         # self._rotations.append([[1, 0], [0, 1], [1, 1], [0, 2]])
