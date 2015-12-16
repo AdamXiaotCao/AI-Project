@@ -30,7 +30,7 @@ class OurStrategy(AbstractStrategy):
     # for each column
     def getHeights(self, field):
         grid = field.field
-        heights = [0] * field.width
+        heights = [0] * grid.width
         for row in grid:
             index = 0
             for col in row:
