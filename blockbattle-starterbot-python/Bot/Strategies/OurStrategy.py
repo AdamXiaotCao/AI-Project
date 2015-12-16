@@ -1,5 +1,5 @@
 from AbstractStrategy import AbstractStrategy
-
+import math
 
 class OurStrategy(AbstractStrategy):
     def __init__(self, game):
@@ -17,12 +17,21 @@ class OurStrategy(AbstractStrategy):
         pieceBlocks = piece.positions()
         piecePosition = self._game.piecePosition
         nextPiece = self._game.nextPiece
+        grid = field.field
 
+        best_fit = None
+        max_score = - math.inf
         #TODO iterate over all possible moves, compute heuristic
+        for i in range(1, grid.height-1):
+            for j in range(1, grid.width-1):
+                if (piece is on ground):
+                    tmp_score = getScore(field.projectPieceDown(piece, (i, j)))
+                    if (tmp_score > max_score):
+                        max_score = tmp_score
+                        best_fit = (i, j)
 
-        # get the frontier of the field
-        # find place to fit
-        # find corresponding moves
+        # given the best fit, find corresponding moves
+
         moves = []
         return moves
 
