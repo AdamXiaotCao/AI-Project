@@ -25,14 +25,14 @@ class OurStrategy(AbstractStrategy):
         best_moves = []
         counter = 0
         #TODO iterate over all possible moves, compute heuristic
-        for j in range(1, field.width-1):
-            current_moves = []
+        current_moves = []
+        for j in range(1, field.width/2):
             for i in range(1, field.height-1):
                 for turn in xrange(4):
                     counter += 1
                     print "checking is on ground ", counter
                     if isOnGround(piece.positions(), field):
-                        tmp_score = self.getScore(field.projectPieceDown(piece, (i, j)))
+                        tmp_score = self.getScore(field.projectPieceDown(piece, (j, i)))
                         if tmp_score > max_score:
                             max_score = tmp_score
                             best_moves = current_moves
@@ -148,8 +148,6 @@ def checkIfPieceFits(field, piecePositions):
 
 
 def isOnGround(piecePositions, field):
-
-
     return checkIfPieceFits(field, piecePositions) and \
            (not checkIfPieceFits(field, offsetPiece(piecePositions, (0, 1))))
 # Genetic Algorithm
