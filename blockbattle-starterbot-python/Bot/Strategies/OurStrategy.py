@@ -30,7 +30,11 @@ class OurStrategy(AbstractStrategy):
     # for each column
     def getHeights(self, field):
         grid = field.field
+<<<<<<< HEAD
+        heights = [0] * len(grid[0])
+=======
         heights = [0] * grid.width
+>>>>>>> fc665ba115d941103778ae4a551ea89802a2e603
         for row in grid:
             index = 0
             for col in row:
@@ -40,8 +44,13 @@ class OurStrategy(AbstractStrategy):
         return heights
 
     # calculate the sum of absolute height difference
+<<<<<<< HEAD
+    def diff_height(field):
+        heights = getHeights(field)
+=======
     def diff_height(self, field):
         heights = self.getHeights(field)
+>>>>>>> fc665ba115d941103778ae4a551ea89802a2e603
         abs_diff_sum = 0
         for i in xrange(0, len(heights) - 1):
             abs_diff_sum += abs(heights[i] - heights[i+1])
@@ -55,8 +64,12 @@ class OurStrategy(AbstractStrategy):
             agg_sum += h
         return agg_sum
 
+<<<<<<< HEAD
+    def complete_lines(field):
+=======
     def complete_lines(self, field):
         grid = field.field
+>>>>>>> fc665ba115d941103778ae4a551ea89802a2e603
         count = 0
         for layer in grid:
             if layer.__contains__(0):
