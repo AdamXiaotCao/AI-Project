@@ -7,11 +7,11 @@ class OurStrategy(AbstractStrategy):
     def __init__(self, game):
         AbstractStrategy.__init__(self, game)
         self._actions = ['left', 'right', 'turnleft', 'turnright', 'down', 'drop']
-        self.a = -1
-        self.b = 0
-        self.c = 0
-        self.d = 0
-        self.e = 0
+        self.a = -1  # agg_heights
+        self.b = 10  # complete_lines
+        self.c = -1  # num_holes
+        self.d = 0  # T_spin
+        self.e = 0  # diff_heights
 
     def choose(self):
         player = self._game.me
@@ -29,6 +29,7 @@ class OurStrategy(AbstractStrategy):
 
         # check right side
         print piecePosition
+        print piece.pieceWidth()
         for j in range(piecePosition[0], field.width - piece.pieceWidth()):
             current_moves = ['right'] * (j - piecePosition[0])
             for turn in range(0, 4):
@@ -37,7 +38,7 @@ class OurStrategy(AbstractStrategy):
                 if DEV_MODE:
                     print "tmp_score is ", tmp_score
                 if tmp_score > max_score:
-                    print max_score, tmp_score, current_moves
+                    print "Updating best moves: ", max_score, tmp_score, current_moves
                     max_score = tmp_score
                     best_moves = copy.deepcopy(current_moves)
                     break
@@ -58,6 +59,7 @@ class OurStrategy(AbstractStrategy):
                 if DEV_MODE:
                     print "tmp_score is ", tmp_score
                 if tmp_score > max_score:
+                    print "Updating best moves: ", max_score, tmp_score, current_moves
                     max_score = tmp_score
                     best_moves = copy.deepcopy(current_moves)
                     break
@@ -74,6 +76,8 @@ class OurStrategy(AbstractStrategy):
         return moves
 
     def getScore(self, field):
+        if field is None:
+            return -sys.maxint
         agg_h = self.agg_height(field)
         com_l = self.complete_lines(field)
         num_h = self.num_holes(field)
@@ -83,8 +87,8 @@ class OurStrategy(AbstractStrategy):
             print("getScore result")
             print "agg_h: ", agg_h, "\n com_l: ", com_l, "\nnum_h: ", num_h, "\nt_spin_r: ", t_spin_r
             print("----------")
-        return self.a * self.max_height(field) + self.b * self.complete_lines(field) \
-               + self.c * self.num_holes(field) + self.d * self.T_spin_readiness(field) + self.e * self.agg_height(field)
+        return self.a * self.agg_height(field) + self.b * self.complete_lines(field) \
+               + self.c * self.num_holes(field) + self.d * self.T_spin_readiness(field) + self.e * self.diff_height(field)
 
     # return an array of int that represents the highest point
     # for each column
@@ -112,6 +116,7 @@ class OurStrategy(AbstractStrategy):
         if DEV_MODE:
             printField(field)
         heights = self.getHeights(field)
+        print heights
         if DEV_MODE:
             print("---------heights----------")
             print(heights)
@@ -123,7 +128,7 @@ class OurStrategy(AbstractStrategy):
 
     def max_height(self, field):
         heights = self.getHeights(field)
-        print "max height!,", max(heights), heights
+        print "max height: ", max(heights), heights
         return max(heights)
 
     def complete_lines(self, field):
@@ -139,10 +144,9 @@ class OurStrategy(AbstractStrategy):
         count = 0
         for i in range(1, len(field)-1):
             for j in range(1, len(field[0])-1):
-                if field[i-1][j] == 0 or field[i-1][j-1] == 0 or field[i-1][j+1] == 0:
-                    continue
-                else:
+                if field[i][j] == 0 and field[i-1][j] > 0:
                     count += 1
+        print "num holes: ", count
         return count
 
 

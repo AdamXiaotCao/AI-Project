@@ -68,8 +68,8 @@ class IPiece(Piece):
         # rotations ordered by their rotation to the right
         self._rotations.append([[0, 1], [1, 1], [2, 1], [3, 1]])
         self._rotations.append([[2, 0], [2, 1], [2, 2], [2, 3]])
-        self._widthList.append(1)
         self._widthList.append(4)
+        self._widthList.append(1)
 
         # self._rotations.append([[0, 2], [1, 2], [2, 2], [3, 2]])
         # self._rotations.append([[1, 0], [1, 1], [1, 2], [1, 3]])
@@ -82,10 +82,10 @@ class JPiece(Piece):
         self._rotations.append([[1, 0], [2, 0], [1, 1], [1, 2]])
         self._rotations.append([[0, 1], [1, 1], [2, 1], [2, 2]])
         self._rotations.append([[1, 0], [1, 1], [0, 2], [1, 2]])
-        self._widthList.append(2)
         self._widthList.append(3)
         self._widthList.append(2)
         self._widthList.append(3)
+        self._widthList.append(2)
 
 
 class SPiece(Piece):
@@ -94,8 +94,8 @@ class SPiece(Piece):
         # rotations ordered by their rotation to the right
         self._rotations.append([[1, 0], [2, 0], [0, 1], [1, 1]])
         self._rotations.append([[1, 0], [1, 1], [2, 1], [2, 2]])
-        self._widthList.append(2)
         self._widthList.append(3)
+        self._widthList.append(2)
 
         # self._rotations.append([[1, 1], [2, 1], [0, 2], [1, 2]])
         # self._rotations.append([[0, 0], [0, 1], [1, 1], [1, 2]])
@@ -108,10 +108,10 @@ class TPiece(Piece):
         self._rotations.append([[1, 0], [1, 1], [2, 1], [1, 2]])
         self._rotations.append([[0, 1], [1, 1], [2, 1], [1, 2]])
         self._rotations.append([[1, 0], [0, 1], [1, 1], [1, 2]])
-        self._widthList.append(2)
         self._widthList.append(3)
         self._widthList.append(2)
         self._widthList.append(3)
+        self._widthList.append(2)
 
 
 class ZPiece(Piece):
@@ -119,8 +119,8 @@ class ZPiece(Piece):
         Piece.__init__(self)
         self._rotations.append([[0, 0], [1, 0], [1, 1], [2, 1]])
         self._rotations.append([[2, 0], [1, 1], [2, 1], [1, 2]])
-        self._widthList.append(2)
         self._widthList.append(3)
+        self._widthList.append(2)
 
         # self._rotations.append([[0, 1], [1, 1], [1, 2], [2, 2]])
         # self._rotations.append([[1, 0], [0, 1], [1, 1], [0, 2]])
