@@ -57,3 +57,12 @@ class Field:
             return field
         else:
             return None
+    def printField(self):
+        print("-------Field--------")
+        for row in range(0,len(self.field)):
+            output = ""
+            for col in range(0, len(self.field[0])):
+                output += str(self.field[row][col])
+            output+="\n"
+            print(output)
+        print("---------End--------")

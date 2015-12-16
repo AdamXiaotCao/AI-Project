@@ -29,46 +29,65 @@ class OurStrategy(AbstractStrategy):
         for j in range(1, field.width/2):
             current_moves = []
             for i in range(1, field.height-1):
-                for turn in xrange(4):
+                for turn in range(0,4):
                     counter += 1
                     # print "checking is on ground ", counter
-                    if isOnGround(piece.positions(), field,j, i):
-                        tmp_score = self.getScore(field.projectPieceDown(piece, (j, i)))
+                    if isOnGround(piece.positions(), field,i, j):
+                        tmp_score = self.getScore(field.projectPieceDown(piece, (i, j)))
                         print "tmp_score is ", tmp_score
                         if tmp_score > max_score:
                             max_score = tmp_score
                             best_moves = current_moves
                             # best_fit = (i, j)
                         break
-                    current_moves += ["turnright"]
-                    piece.turnRight()
-                    piecePosition = piece.positions()
+                    if turn != 0:
+                        turn_result = piece.turnRight()
+                        if not turn_result:
+                            break
+                        current_moves += ["turnright"]
+                        piecePosition = piece.positions()
                 current_moves += ['down']
             current_moves += ['right']
         # given the best fit, find corresponding moves
         moves = best_moves
-        print moves
+        # print moves
         moves += ['drop']
         return moves
 
     def getScore(self, field):
+        agg_h = self.agg_height(field)
+        com_l = self.complete_lines(field)
+        num_h = self.num_holes(field)
+        t_spin_r = self.T_spin_readiness(field)
+        print("----------")
+        print("getScore result")
+        print "agg_h: ", agg_h, "\n com_l: ", com_l, "\nnum_h: ", num_h, "\nt_spin_r: ", t_spin_r
+        print("----------")
         return self.a * self.agg_height(field) + self.b * self.complete_lines(field) \
                + self.c * self.num_holes(field) + self.d * self.T_spin_readiness(field)
 
     # return an array of int that represents the highest point
     # for each column
     def getHeights(self, field):
-
         heights = [0] * len(field[0])
-        for row in field:
-            row_num = 0
-            index = 0
-            for col in row:
-                if row[col] == 4 and heights[index] == 0:
-                    heights[index] =row_num
-                index += 1
-            row_num += 1
-        heights = map(lambda x: len(field) - x, heights)
+        num_col = len(field[0])
+        num_row = len(field)
+        for col in range(0,num_col):
+            for row in range(0, num_row):
+                if(field[row][col] == 4):
+                    heights[col] = num_row - row
+                    break
+        #
+        # for row in field:
+        #     row_num = 0
+        #     index = 0
+        #     for col in row:
+        #         if row[col] == 4 and heights[index] == 0:
+        #             heights[index] =row_num
+        #             break
+        #         index += 1
+        #     row_num += 1
+        # heights = map(lambda x: len(field) - x, heights)
         return heights
 
     # calculate the sum of absolute height difference
@@ -81,14 +100,19 @@ class OurStrategy(AbstractStrategy):
 
     # sum up the heights in each column
     def agg_height(self, field):
+        printField(field)
+
+
         heights = self.getHeights(field)
+        print("---------heights----------")
+        print(heights)
+        print("-----------End------------")
         agg_sum = 0
         for h in heights:
             agg_sum += h
         return agg_sum
 
     def complete_lines(self, field):
-
         count = 0
         for layer in field:
             if layer.__contains__(0):
@@ -153,10 +177,38 @@ def checkIfPieceFits(field, piecePositions):
 
 
 def isOnGround(piecePositions, field, i, j):
-    print "piecePositions is ", piecePositions
-    result = (field.fitPiece(piecePositions) is not None) and (field.fitPiece(piecePositions,(j,i)) is None)
+    result = (field.fitPiece(piecePositions, (i,j)) is not None) and (field.fitPiece(piecePositions,(i+1,j)) is None)
     # result = checkIfPieceFits(field, piecePositions) and \
         #    (not checkIfPieceFits(field, offsetPiece(piecePositions, (0, 1))))
     print "is on ground result is ", result
     return result
+
+def printField(field):
+    print("-------Field--------")
+    for row in range(0,len(field)):
+        output = ""
+        for col in range(0, len(field[0])):
+            output += str(field[row][col])
+        output+="\n"
+        print(output)
+    print("---------End--------")
+# settings timebank 10000
+# settings time_per_move 500
+# settings player_names player1,player2
+# settings your_bot player1
+# settings field_height 20
+# settings field_width 10
+# update game round 1
+# update game this_piece_type O
+# update game next_piece_type I
+# update game this_piece_position 4,-1
+# update player1 row_points 0
+# update player1 combo 0
+# update player1 skips 0
+# update player1 field 0,0,0,0,1,1,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0
+# update player2 row_points 0
+# update player2 combo 0
+# update player2 field 0,0,0,0,1,1,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0
+# action moves 10000
+
 # Genetic Algorithm
