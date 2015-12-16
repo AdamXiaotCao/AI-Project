@@ -195,7 +195,11 @@ public class Processor implements GameHandler {
 		player.sendUpdate("combo", opponent, opponent.getCombo());
 		player.sendUpdate("skips", opponent, opponent.getSkips());
 
-		System.err.println(opponent.getField().toString(false, false));
+		String[] lines = player.getField().toString(false, false).split(";");
+		for (String line: lines) {
+			System.err.println(line);
+		}
+		//System.err.println(opponent.getField().toString(false, false));
 
 
 	}
