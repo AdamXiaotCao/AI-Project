@@ -113,6 +113,13 @@ public class Processor implements GameHandler {
 			}
 
 			player.setRoundMoves(moves);
+
+			System.err.print("Move of "+player.getName()+": ");
+
+			for (Move m: moves) {
+				System.err.print(m.toString()+"\t");
+			}
+			System.err.println("\n");
 		}
 
 		// execute all moves
@@ -163,6 +170,7 @@ public class Processor implements GameHandler {
 	 */
 	private void setNextShape() {
 		this.nextShape = ShapeType.getRandom();
+
 	}
 
 	/**
@@ -175,10 +183,16 @@ public class Processor implements GameHandler {
 		player.sendUpdate("round", roundNumber);
 		player.sendUpdate("this_piece_type", player.getCurrentShape().getType().toString());
 		player.sendUpdate("next_piece_type", nextShape.toString());
+
+		System.err.println("this_piece_type..."+player.getCurrentShape().getType().toString());
+
 		player.sendUpdate("this_piece_position", player.getCurrentShape().getPositionString());
 
 		// player updates
 		player.sendUpdate("row_points", player, player.getRowPoints());
+
+		System.err.println("row_points of "+player.getName()+": "+player.getRowPoints());
+
 		player.sendUpdate("combo", player, player.getCombo());
 		player.sendUpdate("skips", player, player.getSkips());
 		player.sendUpdate("field", player, player.getField().toString(false, false));
@@ -189,6 +203,14 @@ public class Processor implements GameHandler {
 		player.sendUpdate("row_points", opponent, opponent.getRowPoints());
 		player.sendUpdate("combo", opponent, opponent.getCombo());
 		player.sendUpdate("skips", opponent, opponent.getSkips());
+
+		String[] lines = player.getField().toString(false, false).split(";");
+		for (String line: lines) {
+			System.err.println(line);
+		}
+		//System.err.println(opponent.getField().toString(false, false));
+
+
 	}
 
 	private ArrayList<Move> parseMoves(String input, Player player) {
@@ -382,11 +404,6 @@ public class Processor implements GameHandler {
 
 	// stores everything needed in a state for the visualizer for given player
 	private void storePlayerState(Player player, Move move) {
-		// if (DEV_MODE){
-		// 	System.out.println("-------move------");
-		// 	System.out.println("player: "+ player.getName() + "made move : " + move.toString());
-		// 	System.out.println("-----------------");
-		// }
 		player.addPlayerState(this.roundNumber, move, this.nextShape);
 	}
 

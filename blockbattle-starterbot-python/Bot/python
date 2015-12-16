@@ -1,0 +1,60 @@
+[?1049h[?12;25h[?1h=[23;1H[?25l----:---F1  [1m*scratch*   [0m   All L1     (Fundamental)-----------------------------
+[A[H[?12l[?25h[?12;25h[H[2J[24d[?25lLoading encoded-kb...[K[H[?12l[?25h[?12;25h[24;22H[?25ldone[H[?12l[?25h[?12;25h[24d[K[?1l>[?12l[?25h[?1049l[39;49m[?1049h[?12;25h[?1h=[H[2J[24d[K[?1l>[?12l[?25h[?1049l[39;49m[?1049h[?12;25h[?1h=[24;1H[?25lFor information about the GNU Project and its goals, type C-h C-p.[K[H
+[?12l[?25h[?12;25h[24d[?25lLoading image...[K[H
+[?12l[?25h[?12;25h[24;17H[?25ldone[H
+[?12l[?25h[?12;25h[24d[?25l(New file)[K[H
+[?12l[?25h[?12;25h[24d[?25lLoading python...[H
+[?12l[?25h[?12;25h[24;9H[?25leasymenu...[H
+[?12l[?25h[?12;25h[24;20H[?25ldone[H
+[?12l[?25h[?12;25h[24;9H[?25lpython...done[K[H
+[?12l[?25h[?12;25h[24d[?25lLoading python...done[K[Hsettings timebank 10000[K
+settings time_per_move 500[K
+settings player_names player1,player2[K
+settings your_bot player1[K
+settings field_height 20[K
+settings field_width 10[K
+update game round 1[K
+update game this_piece_type O[K
+update game next_piece_type I[K
+update game this_piece_position 4,-1[K
+update player1 row_points 0[K
+[38;5;236m[47m-uu-:---F1  [0m[39;49m[1m[38;5;236m[47mpi          [0m[39;49m[38;5;236m[47m   Top L1     (Fundamental)-----------------------------[0m[39;49m
+[A
+[K
+[K
+[K
+[K
+[K
+[K
+[K
+[K
+[K
+[K
+[30m[48;5;250m-uuu:---F1  [39;49m[1m[30m[48;5;250mBotRun.py   [0m[39;49m[30m[48;5;250m   All L1     (Python)----------------------------------[39;49m
+[A[13d[?12l[?25h[?12;25h[24d[K[23;6H[?25l[30m[48;5;250m**-F1  [39;49m[1m[30m[48;5;250mBotRun.py   [0m[39;49m[30m[48;5;250m   All L2[39;49m[14;1H[?12l[?25h[?12;25h[23;33H[?25l[30m[48;5;250m3[39;49m[15;1H[?12l[?25h[?12;25h[24d[?25lC-c[15;1H[?12l[?25h[?12;25h[24;4H[?25l-[15;1H[?12l[?25h[?12;25h[24d[?25lAuto-saving...[15;1H[?12l[?25h[?12;25h[24d[?25lC-c-[K[15;1H[?12l[?25h[?12;25h[24;4H[?25l RET[15;1H[?12l[?25h[?12;25h[24d[?25lLoading comint...[15;1H[?12l[?25h[?12;25h[24;18H[?25ldone[15;1H[?12l[?25h[?12;25h[24d[?25lbot-python/Bot/[K[Hsettings timebank 10000[K
+settings time_per_move 500[K
+settings player_names player1,player2[K
+settings your_bot player1[K
+settings field_height 20[K
+settings field_width 10[K
+update game round 1[K
+update game this_piece_type O[K
+update game next_piece_type I[K
+update game this_piece_position 4,-1[K
+update player1 row_points 0[K
+[38;5;236m[47m-uu-:---F1  [0m[39;49m[1m[38;5;236m[47mpi          [0m[39;49m[38;5;236m[47m   Top L1     (Fundamental)-----------------------------[0m[39;49m
+[A
+[K
+[K
+[K
+[K
+[K
+[K
+[K
+[K
+[K
+[30m[48;5;250m-uuu:**-F1  [39;49m[1m[30m[48;5;250mBotRun.py   [0m[39;49m[30m[48;5;250m   All L3     (Python)----------------------------------[39;49m
+[A
+[38;5;20mLoad Python file: (default BotRun.py) [39;49m~/Projects/AI-project/blockbattle-starter\
+[A
+		[?12l[?25h[?12;25h[?25l[38;5;20mSave buffer BotRun.py first? (y or n) [39;49m[?12l[?25h[?12;25h[1;23r[22;1H[1L[1;24r[22;1H[K[24;39H

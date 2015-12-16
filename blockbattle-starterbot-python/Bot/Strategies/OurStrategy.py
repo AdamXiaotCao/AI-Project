@@ -34,7 +34,7 @@ class OurStrategy(AbstractStrategy):
                 for turn in range(0,4):
                     counter += 1
                     # print "checking is on ground ", counter
-                    if isOnGround(piece.positions(), field,i, j):
+                    if isOnGround(piece.positions(), field, i, j):
                         tmp_score = self.getScore(field.projectPieceDown(piece, (i, j)))
                         if DEV_MODE:
                             print "tmp_score is ", tmp_score
@@ -193,16 +193,17 @@ def isOnGround(piecePositions, field, i, j):
     result = (field.fitPiece(piecePositions, (i,j)) is not None) and (field.fitPiece(piecePositions,(i+1,j)) is None)
     # result = checkIfPieceFits(field, piecePositions) and \
         #    (not checkIfPieceFits(field, offsetPiece(piecePositions, (0, 1))))
+    # print "is on ground result is ", result
     return result
 
 def printField(field):
-    print("-------Field--------")
+    # print("-------Field--------")
     for row in range(0,len(field)):
         output = ""
         for col in range(0, len(field[0])):
             output += str(field[row][col])
         output+="\n"
-        print(output)
-    print("---------End--------")
+        # print(output)
+    # print("---------End--------")
 
 # Genetic Algorithm

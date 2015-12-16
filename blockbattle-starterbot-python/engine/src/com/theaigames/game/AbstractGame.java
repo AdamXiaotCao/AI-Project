@@ -169,5 +169,6 @@ public abstract class AbstractGame implements Logic {
 		String winnerName = this.processor.getWinner().getName();
 		System.out.println("winner name is: "+ winnerName);
 		System.out.println(playedGame);
+		System.out.println("Winner is ... "+this.processor.getWinner().getName());
 	}
 }
