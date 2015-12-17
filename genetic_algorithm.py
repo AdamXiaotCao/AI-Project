@@ -26,8 +26,8 @@ def normed(vector):
     for c in vector:
         norm += c**2
     norm = norm**0.5
-    for c in vector:
-        c = c/norm
+    for i in xrange(len(vector)):
+        vector[i] /= norm
     return vector
 
 #print pop_gen(5,[1,-1,1])
@@ -42,11 +42,13 @@ def evaluate(pop,num_pieces,num_games):
         score = 0
         for n in xrange(num_games):
             score += f_eval(pop[i],num_pieces)
-        score_sheet[(score,i)] = pop[i]           
+        score_sheet[(score,i)] = pop[i]
     return score_sheet
 
 # test f_eval
 def f_eval(w, n):
+    # run the jave program, read the out.txt return the value
+
     return w[0]*w[1]*n
 
 # Cross_over
@@ -84,7 +86,6 @@ def ga(generations, num_pieces, num_games, pop_size, sign_vec, mutation, elim):
         score_sheet = evaluate(pop, num_pieces, num_games)
         new_pop = cross_over(score_sheet, mutation, elim)
         pop = new_pop
-    return pop
+    return pop[0]
 
-print ga(1,50,10,100,[1,-1,1],0.05,30)
-    
+# print ga(1,50,10,100,[1,-1,1],0.05,30)
