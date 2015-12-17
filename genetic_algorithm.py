@@ -1,5 +1,5 @@
 import random
-
+import subprocess
 # Genetic ALgorithm
 
 # Generate population
@@ -44,6 +44,7 @@ def evaluate(pop,num_games):
         for n in xrange(num_games):
             score += f_eval(pop[i], n)/float(num_games)
         score_sheet[(score,i)] = pop[i]
+    # print score_sheet
     return score_sheet
 
 # f_eval
@@ -53,9 +54,10 @@ def evaluate(pop,num_games):
 # make w battle with all other vectors in pop and record num of wins
 def f_eval(w, n):
     # print w
-    subprocess.check_call(['./blockbattle-starterbot-python/engine/bs.sh', str(w[0]), str(w[1]), str(w[2]), str(w[3]), str(w[4]), str(n)])
+    subprocess.check_call(['./blockbattle-starterbot-python/engine/bs.sh', str(w[0]), str(w[1]), str(w[2]), str(w[3]), str(w[4])])
     print "returned from subprocess!"
-    return w[0]*w[1]
+
+    return -(w[0]+w[1])**2
 
 
 # Cross_over
@@ -96,15 +98,15 @@ def avg(vec1, vec2, wt1, wt2):
 def ga(generations, num_games, pop_size, sign_vec, mutation, elim):
     pop = pop_gen(pop_size, sign_vec)
     for i in xrange(generations):
-        interval = 5
+        interval = 100
         if i % (generations/(100/interval)) == 0:
             print "Progess: %d%%" %((i/(generations/(100/interval))+1)*interval)
-        score_sheet = evaluate(pop,num_games)
+        score_sheet = evaluate(pop, num_games)
         new_pop = cross_over(score_sheet, mutation, elim)
         pop = new_pop
     return pop[0]
 
 
-ga(1,2,5,[1,-1,1,1,1],0.05,30)
+print ga(5,1,20,[1,-1,1,1,1],0.05,5)
 
 
