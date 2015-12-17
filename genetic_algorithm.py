@@ -58,18 +58,19 @@ def f_eval(w, pop):
         #pass 10 parameters
         subprocess.check_call(['./blockbattle-starterbot-python/engine/bs.sh', str(w[0]), str(w[1]), str(w[2]), str(w[3]), str(w[4]), str(opponent[0], str(opponent[1], str(opponent[2], str(opponent[3], str(opponent[4])])
         outFile = open('./blockbattle-starterbot-python/engine/out.txt')
+        print("readding out file...")
         found_winner = False
         for line in outFile:
             if line == "winner name is:":
                 found_winner = True
-            if found_winner and line == "Player 1":
+            if found_winner and line == "player1":
                 score +=1
                 break
         #read out.txt, check who won
         #player 1 is self score++
         #player 2 is opponent
+    print("done with f eval")
     return score
-
 
 # Cross_over
 # score_sheet is a dictionary with format of {(score,i):w}
