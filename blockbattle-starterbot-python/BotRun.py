@@ -1,4 +1,4 @@
-from sys import stdin, stdout
+from sys import stdin, stdout, argv
 
 from Bot import Planner
 from Bot.Game.Game import Game
@@ -10,7 +10,8 @@ class Bot:
     def __init__(self, strategy):
         self.game = Game()
         self._parser = Parser(self.game)
-        self._planner = Planner.create(strategy, self.game)
+        self._planner = Planner.create(strategy, self.game, argv[1:])
+        # print "argv is ", argv
 
     def run(self):
         while not stdin.closed:

@@ -4,14 +4,14 @@ import math, copy, sys
 DEV_MODE = False
 class OurStrategy(AbstractStrategy):
 
-    def __init__(self, game):
+    def __init__(self, game, coefficients):
         AbstractStrategy.__init__(self, game)
         self._actions = ['left', 'right', 'turnleft', 'turnright', 'down', 'drop']
-        self.a = -1  # agg_heights
-        self.b = 10  # complete_lines
-        self.c = -1  # num_holes
-        self.d = 0  # T_spin
-        self.e = 0  # diff_heights
+        self.a = coefficients[0]  # agg_heights
+        self.b = coefficients[1]  # complete_lines
+        self.c = coefficients[2]  # num_holes
+        self.d = coefficients[3]  # T_spin
+        self.e = coefficients[4]  # diff_heights
 
     def choose(self):
         player = self._game.me
