@@ -1,4 +1,6 @@
 import random
+import subprocess
+
 
 # Genetic ALgorithm
 
@@ -47,6 +49,9 @@ def evaluate(pop,num_pieces,num_games):
 
 # test f_eval
 def f_eval(w, n):
+    # print w
+    subprocess.check_call(['./bs.sh', str(w[0]), str(w[1]), str(w[2]), str(w[3]), str(w[4])])
+    print "returned from subprocess!"
     return w[0]*w[1]*n
 
 # Cross_over
@@ -86,5 +91,6 @@ def ga(generations, num_pieces, num_games, pop_size, sign_vec, mutation, elim):
         pop = new_pop
     return pop
 
-print ga(1,50,10,100,[1,-1,1],0.05,30)
-    
+ga(1,5,1,1,[1,-1,1,1,1],0.05,30)
+
+
