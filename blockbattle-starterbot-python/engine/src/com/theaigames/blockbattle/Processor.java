@@ -31,7 +31,7 @@ import com.theaigames.game.player.AbstractPlayer;
 
 public class Processor implements GameHandler {
 
-	private final boolean DEV_MODE = true;
+	private final boolean DEV_MODE = false;
 	private ArrayList<Player> players;
 	private int roundNumber;
 	private AbstractPlayer winner;
@@ -113,13 +113,14 @@ public class Processor implements GameHandler {
 			}
 
 			player.setRoundMoves(moves);
+			if(DEV_MODE){
+				System.err.print("Move of "+player.getName()+": ");
 
-			System.err.print("Move of "+player.getName()+": ");
-
-			for (Move m: moves) {
-				System.err.print(m.toString()+"\t");
+				for (Move m: moves) {
+					System.err.print(m.toString()+"\t");
+				}
+				System.err.println("\n");
 			}
-			System.err.println("\n");
 		}
 
 		// execute all moves
@@ -184,14 +185,15 @@ public class Processor implements GameHandler {
 		player.sendUpdate("this_piece_type", player.getCurrentShape().getType().toString());
 		player.sendUpdate("next_piece_type", nextShape.toString());
 
-		System.err.println("this_piece_type..."+player.getCurrentShape().getType().toString());
+		if(DEV_MODE)
+			System.err.println("this_piece_type..."+player.getCurrentShape().getType().toString());
 
 		player.sendUpdate("this_piece_position", player.getCurrentShape().getPositionString());
 
 		// player updates
 		player.sendUpdate("row_points", player, player.getRowPoints());
-
-		System.err.println("row_points of "+player.getName()+": "+player.getRowPoints());
+		if(DEV_MODE)
+			System.err.println("row_points of "+player.getName()+": "+player.getRowPoints());
 
 		player.sendUpdate("combo", player, player.getCombo());
 		player.sendUpdate("skips", player, player.getSkips());
@@ -205,7 +207,8 @@ public class Processor implements GameHandler {
 		player.sendUpdate("skips", opponent, opponent.getSkips());
 
 
-		System.err.println(player.getName());
+		if(DEV_MODE)
+			System.err.println(player.getName());
 
 		String[] lines = player.getField().toString(false, false).split(";");
 		for (String line: lines) {

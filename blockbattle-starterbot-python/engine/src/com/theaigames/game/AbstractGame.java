@@ -43,7 +43,7 @@ public abstract class AbstractGame implements Logic {
 
 	public int maxRounds;
 
-	public boolean DEV_MODE = false; // turn this on for local testing
+	public boolean DEV_MODE = true; // turn this on for local testing
 	public String TEST_BOT; // command for the test bot in DEV_MODE
 	public int NUM_TEST_BOTS; // number of bots for this game
 
@@ -166,9 +166,11 @@ public abstract class AbstractGame implements Logic {
 
 		// save results to file here
 		String playedGame = this.processor.getPlayedGame();
-		String winnerName = this.processor.getWinner().getName();
-		System.out.println("winner name is:");
-		System.out.println(winnerName);
+		if(this.processor.getWinner() != null){
+				String winnerName = this.processor.getWinner().getName();
+				System.out.println("winner name is:");
+				System.out.println(winnerName);
+		}
 		System.out.println(playedGame);
 	}
 }

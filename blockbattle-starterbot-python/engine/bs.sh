@@ -9,5 +9,5 @@ clear;
 
 
 echo $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10}
-java -cp bin com.theaigames.blockbattle.Blockbattle "python ../BotRun.py ${1} ${2} ${3} ${4} ${5}" "python ../BotRun.py ${6} ${7} ${8} ${9} ${10}" 2>err${a}.txt 1>out${a}.txt
-echo "Exit Bash Script!!!"
+java -cp bin com.theaigames.blockbattle.Blockbattle "python ../BotRun.py ${1} ${2} ${3} ${4} ${5}" "python ../BotRun.py ${6} ${7} ${8} ${9} ${10}" 2>err.txt 1>out.txt
+# echo "Exit Bash Script!!!"
