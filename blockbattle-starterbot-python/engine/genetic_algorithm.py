@@ -28,8 +28,8 @@ def normed(vector):
     for c in vector:
         norm += c**2
     norm = norm**0.5
-    for i in xrange(len(vector)):
-        vector[i] /= norm
+    for c in vector:
+        c = c/norm
     return vector
 
 #print pop_gen(5,[1,-1,1])
@@ -38,27 +38,21 @@ def normed(vector):
 # pop is the list of all vectors
 # num_pieces is number of poeces assigned to each game
 # num_game is the number of games for the bot to play
-def evaluate(pop,num_games):
+def evaluate(pop,num_pieces,num_games):
     score_sheet = {}
-    print "generating score sheet..."
     for i in xrange(len(pop)):
         score = 0
         for n in xrange(num_games):
-            score += f_eval(pop[i],pop)/float(num_games)
-        score_sheet[(score,i)] = pop[i]
-    print "score sheet completed!"
+            score += f_eval(pop[i],num_pieces)
+        score_sheet[(score,i)] = pop[i]           
     return score_sheet
 
-# f_eval
-# round robin style
-# w is the candidate to be evaluated
-# pop is the rest of other candidates
-# make w battle with all other vectors in pop and record num of wins
-def f_eval(w, pop):
-    score = 0
-    for wi in pop:
-        score += ((w[0]+w[1])**2 < (wi[0]+wi[1])**2)*1
-    return score
+# test f_eval
+def f_eval(w, n):
+    # print w
+    subprocess.check_call(['./bs.sh', str(w[0]), str(w[1]), str(w[2]), str(w[3]), str(w[4])])
+    print "returned from subprocess!"
+    return w[0]*w[1]*n
 
 # Cross_over
 # score_sheet is a dictionary with format of {(score,i):w}
@@ -67,7 +61,6 @@ def f_eval(w, pop):
 def cross_over(score_sheet,mutation,elim):
     sorted_keys = sorted(score_sheet.keys())
     score_copy = score_sheet.copy()
-    print "starting cross over elimination..."
     for i in xrange(elim):
         pick1 = random.randint(0,len(score_sheet)/10*9)
         pick2 = random.randint(0,len(score_sheet)/10*9)
@@ -81,7 +74,6 @@ def cross_over(score_sheet,mutation,elim):
         baby[random.randint(0,len(baby)-1)]+random.randint(-1,1)*mutation
         baby = normed(baby)
         score_copy[sorted_keys[i]] = baby
-    print "elimination completed!"
     return score_copy.values()
 
 def avg(vec1, vec2, wt1, wt2):
@@ -91,11 +83,14 @@ def avg(vec1, vec2, wt1, wt2):
     return result
 
 # Run
-def ga(generations, num_games, pop_size, sign_vec, mutation, elim):
+def ga(generations, num_pieces, num_games, pop_size, sign_vec, mutation, elim):
     pop = pop_gen(pop_size, sign_vec)
     for i in xrange(generations):
-        score_sheet = evaluate(pop,num_games)
+        score_sheet = evaluate(pop, num_pieces, num_games)
         new_pop = cross_over(score_sheet, mutation, elim)
         pop = new_pop
-    return pop[0]
-ga(1,5,1,1,[1,-1,1,1,1],0.05,30)
+    return pop
+
+ga(1,3,1,1,[1,-1,1,1,1],0.05,30)
+
+
