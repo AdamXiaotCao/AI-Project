@@ -44,8 +44,9 @@ def evaluate(pop,num_games):
     for i in xrange(len(pop)):
         score = 0
         for n in xrange(num_games):
-            score += f_eval(pop[i],pop)/float(num_games)
+            score += f_eval(pop[i], n)/float(num_games)
         score_sheet[(score,i)] = pop[i]
+    print score_sheet
     print "score sheet completed!"
     return score_sheet
 
@@ -54,11 +55,11 @@ def evaluate(pop,num_games):
 # w is the candidate to be evaluated
 # pop is the rest of other candidates
 # make w battle with all other vectors in pop and record num of wins
-def f_eval(w, pop):
-    score = 0
-    for wi in pop:
-        score += ((w[0]+w[1])**2 < (wi[0]+wi[1])**2)*1
-    return score
+def f_eval(w, n):
+    # print w
+    subprocess.check_call(['./blockbattle-starterbot-python/engine/bs.sh', str(w[0]), str(w[1]), str(w[2]), str(w[3]), str(w[4]), str(n)])
+    print "returned from subprocess!"
+    return w[0]*w[1]
 
 # Cross_over
 # score_sheet is a dictionary with format of {(score,i):w}
@@ -99,6 +100,6 @@ def ga(generations, num_games, pop_size, sign_vec, mutation, elim):
         pop = new_pop
     return pop[0]
 
-ga(1,5,1,1,[1,-1,1,1,1],0.05,30)
+ga(1,2,5,[1,-1,1,1,1],0.05,30)
 
 
