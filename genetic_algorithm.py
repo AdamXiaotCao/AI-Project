@@ -42,7 +42,7 @@ def evaluate(pop,num_games):
     for i in xrange(len(pop)):
         score = 0
         for n in xrange(num_games):
-            score += f_eval(pop[i], n)/float(num_games)
+            score += f_eval(pop[i], pop)/float(num_games)
         score_sheet[(score,i)] = pop[i]
     return score_sheet
 
@@ -51,11 +51,24 @@ def evaluate(pop,num_games):
 # w is the candidate to be evaluated
 # pop is the rest of other candidates
 # make w battle with all other vectors in pop and record num of wins
-def f_eval(w, n):
+def f_eval(w, pop):
     # print w
-    subprocess.check_call(['./blockbattle-starterbot-python/engine/bs.sh', str(w[0]), str(w[1]), str(w[2]), str(w[3]), str(w[4]), str(n)])
-    print "returned from subprocess!"
-    return w[0]*w[1]
+    score = 0 #score = number of wins
+    for opponent in pop:
+        #pass 10 parameters
+        subprocess.check_call(['./blockbattle-starterbot-python/engine/bs.sh', str(w[0]), str(w[1]), str(w[2]), str(w[3]), str(w[4]), str(opponent[0], str(opponent[1], str(opponent[2], str(opponent[3], str(opponent[4])])
+        outFile = open('./blockbattle-starterbot-python/engine/out.txt')
+        found_winner = False
+        for line in outFile:
+            if line == "winner name is:":
+                found_winner = True
+            if found_winner and line == "Player 1":
+                score +=1
+                break
+        #read out.txt, check who won
+        #player 1 is self score++
+        #player 2 is opponent
+    return score
 
 
 # Cross_over
@@ -106,5 +119,3 @@ def ga(generations, num_games, pop_size, sign_vec, mutation, elim):
 
 
 ga(1,2,5,[1,-1,1,1,1],0.05,30)
-
-
